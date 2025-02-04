@@ -1,101 +1,66 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState } from "react"
+import { Slider } from "@/components/ui/slider"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import RemEmDemo from "./components/rem-em-demo"
+import PercentageDemo from "./components/percentage-demo"
+import FlexboxDemo from "./components/flexbox-demo"
+import Footer from "./components/footer"
+
+export default function CSSUnitsDemo() {
+  const [rootFontSize, setRootFontSize] = useState(16)
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="container mx-auto p-4" style={{ fontSize: `${rootFontSize}px` }}>
+      <h1 className="text-3xl font-bold mb-2">Interactive CSS Units & Flexbox Demo</h1>
+      <div className="text-lg mb-4">
+        <p>NCMT College</p>
+        <p>Instructor: Ayush Acharya</p>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <p className="mb-6 text-lg">
+        This interactive demo will help you understand how different CSS units (rem, em, %) and Flexbox work. Experiment
+        with the controls to see how they affect the layout and sizing of elements in various scenarios.
+      </p>
+
+      <div className="mb-6">
+        <Label htmlFor="root-font-size" className="text-lg font-semibold">
+          Root Font Size: {rootFontSize}px
+        </Label>
+        <p className="mb-2">
+          Adjust this to see how it affects rem units and indirectly influences em units across all examples.
+        </p>
+        <Slider
+          id="root-font-size"
+          min={12}
+          max={24}
+          step={1}
+          value={[rootFontSize]}
+          onValueChange={(value) => setRootFontSize(value[0])}
+          className="w-full"
+        />
+      </div>
+
+      <Tabs defaultValue="rem-em">
+        <TabsList>
+          <TabsTrigger value="rem-em">REM & EM</TabsTrigger>
+          <TabsTrigger value="percentage">Percentage</TabsTrigger>
+          <TabsTrigger value="flexbox">Flexbox</TabsTrigger>
+        </TabsList>
+        <TabsContent value="rem-em">
+          <RemEmDemo rootFontSize={rootFontSize} />
+        </TabsContent>
+        <TabsContent value="percentage">
+          <PercentageDemo />
+        </TabsContent>
+        <TabsContent value="flexbox">
+          <FlexboxDemo />
+        </TabsContent>
+      </Tabs>
+      <Footer />
     </div>
-  );
+  )
 }
+
